@@ -13,6 +13,14 @@ if (NOT CMAKE_BUILD_TYPE)
             )
 endif (NOT CMAKE_BUILD_TYPE)
 
+# Fix pthreads issue
+# use in cmakelists.txt file https://github.com/alicevision/geogram/issues/2
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+set(CMAKE_HAVE_THREADS_LIBRARY 1)
+set(CMAKE_USE_WIN32_THREADS_INIT 0)
+set(CMAKE_USE_PTHREADS_INIT 1)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
 # C++ Standard
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
