@@ -17,20 +17,35 @@
 #  PAPI_LIBRARIES          The PAPI library
 #  PAPI_INCLUDE_DIRS       The location of PAPI headers
 
-find_path(PAPI_PREFIX
-        NAMES include/papi.h
-        )
+## find the papi include directory
+find_path(PAPI_INCLUDE_DIRS papi.h
+        PATH_SUFFIXES include
+        PATHS
+        $ENV{CPLUS_INCLUDE_PATH}
+        $ENV{C_INCLUDE_PATH}
+        /usr/local/include/
+        /usr/local
+        /usr
+        /usr/include/
+        /opt
+        /opt/local
+        ${PAPI_PREFIX}/include/
+        ${PAPI_PREFIX})
 
+# find the papi library
 find_library(PAPI_LIBRARIES
-        # Pick the static library first for easier run-time linking.
         NAMES libpapi.so libpapi.a papi
-        HINTS ${PAPI_PREFIX}/lib ${HILTIDEPS}/lib
-        )
-
-find_path(PAPI_INCLUDE_DIRS
-        NAMES papi.h
-        HINTS ${PAPI_PREFIX}/include ${HILTIDEPS}/include
-        )
+        PATH_SUFFIXES lib64 lib
+        PATHS ~/Library/Frameworks
+        $ENV{LD_LIBRARY_PATH}
+        /Library/Frameworks
+        /usr/local
+        /usr
+        /sw
+        /opt/local
+        /opt
+        ${PAPI_PREFIX}/lib
+        ${PAPI_PREFIX})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(PAPI DEFAULT_MSG
