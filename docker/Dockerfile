@@ -45,14 +45,14 @@ RUN mkdir -p /tmp/build && cd /tmp/build && \
   cp -rp share/* /usr/local/share/ && \
   cd / && rm -rf /tmp/build
 
-RUN apt-get update && apt-get install -y git libpthread-stubs0-dev automake
+RUN apt-get update && apt-get install -y git libpthread-stubs0-dev automake libnuma-dev clang
 
 # fetch and install boost
 RUN wget https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz && tar xf boost_1_74_0.tar.gz && cd boost_1_74_0 && ./bootstrap.sh --prefix=/usr/local && ./b2 install
 
 # require papi libs from http://icl.utk.edu/papi/software/
 # -> goto src, run ./configure, make install
-RUN git clone https://bitbucket.org/icl/papi.git && cd papi/src && ./configure && make install
+RUN git clone https://bitbucket.org/icl/papi.git && cd papi/src && ./configure && make && make install
 
 # clone grizzly repo
 RUN cd /home && git clone https://github.com/LeonhardFS/grizzly-prototype.git
